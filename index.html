@@ -11,39 +11,56 @@
     <title>Chris' Weather Forcaster</title>
 </head>
 
-<body>
+<body class="bg-warning margin bg-opacity-75 mx-80% ">
     <header class="bg-secondary text-center">
+        <br>
         <h1>Weather Dashboard</h1>
-    </header>
-    <main class="container">
+
         <div class="row">
             <div class="co d-block">
                 <label> Search for City: </label>
                 <input id="cityTxt">
 
-                <button class="btn btn-primary" id=subBtn> Search</button>
+                <button class="btn btn-primary " id="subBtn"> Search</button>
             </div>
-            <div class="col border border-warning border-3 p-3 m-4" id="current">
-                <h2>Current Forcast</h2>
-            </div>
-        </div>
-        <div class="container">
-            <div class="row row-cols-2 border border-info border-3 p-3 m-4" id="row1">
-           <h2 class="col-4 border border-warning border-3 p-3 m-4" id="city-1"> Day 1: </h2>
-            <div class="col-4 border border-warning border-3 p-3 m-4" id="day-1"></div>
-            <h2 class="col-4 border border-warning border-3 p-3 m-4" id="city-2"> Day 2: </h2>
-            <div class="col-4 border border-warning border-3 p-3 m-4" id="day-2">
-            </div>
-            <h2 class="col-4 border border-warning border-3 p-3 m-4" id="city-3"> Day 3: </h2>
-            <div class="col-4 border border-warning border-3 p-3 m-4" id="day-3">
-            </div>
-            <h2 class="col-4 border border-warning border-3 p-3 m-4" id="city-4"> Day 4: </h2>
-            <div class="col-4 border border-warning border-3 p-3 m-4"  id="day-4">
-            </div>
-            <h2 class="col-4 border border-warning border-3 p-3 m-4" id="city-5"> Day 5: </h2>
-            <div class="col-4 border border-warning border-3 p-3 m-4" id="day-5">
+            <div class="col-4 d-flex justify-content-center align-items-center h-auto p-3 text-white text-uppercase w-100 ">
+                <h2>Current:</h2>
+                <div id="current">
+                </div>
             </div>
         </div>
+    </header>
+    <main class="container ">
+        <h1 class="align-items-center w-100"> Five Day Forecast </h1>
+        <div class="container d-flex justify-content-center">
+            <div class="row row-cols-2 d-flex justify-content-center p-3 m-4 text-white d-flex align-items-center "
+                id="row1">
+                <h2 class="col-4 d-flex justify-content-center h-auto border border-secondary border-3 p-3 m-4 text-white  text-uppercase "
+                    id="city-1"> Day 1: </h2>
+                <div class="col-4 d-flex justify-content-center h-auto h-auto border border-secondary border-3 p-3 m-4 text-white "
+                    id="day-1">
+                </div>
+                <h2 class="col-4 d-flex justify-content-center h-auto border border-secondary border-3 p-3 m-4 text-white text-uppercase "
+                    id="city-2"> Day 2: </h2>
+                <div class="col-4 d-flex justify-content-center h-auto  h-auto border border-secondary border-3 p-3 m-4 text-white "
+                    id="day-2">
+                </div>
+                <h2 class="col-4 d-flex justify-content-center h-auto border border-secondary border-3 p-3 m-4 text-white text-uppercase "
+                    id="city-3"> Day 3: </h2>
+                <div class="col-4 d-flex justify-content-center h-auto  h-auto border border-secondary border-3 p-3 m-4 text-white "
+                    id="day-3">
+                </div>
+                <h2 class="col-4 d-flex justify-content-center h-auto border border-secondary border-3 p-3 m-4 text-white text-uppercase"
+                    id="city-4"> Day 4: </h2>
+                <div class="col-4 d-flex justify-content-center h-auto border border-secondary border-3 p-3 m-4 text-white "
+                    id="day-4">
+                </div>
+                <h2 class="col-4 d-flex justify-content-center h-auto border border-secondary border-3 p-3 m-4 text-white text-uppercase "
+                    id="city-5"> Day 5: </h2>
+                <div class="col-4 d-flex justify-content-center h-auto border border-secondary border-3 p-3 m-4 text-white "
+                    id="day-5">
+                </div>
+            </div>
         </div>
     </main>
 
