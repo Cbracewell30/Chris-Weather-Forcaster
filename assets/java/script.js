@@ -4,11 +4,18 @@ var apiKey = "2401e5f244d6edfc7b640a1343114a6e";
 var orderedList = document.querySelector("ol")
 var cityArr = {};
 
+var date = (moment().format('ll'))
+console.log(moment().format('ll'))
+
+
+
 
 // on click function for search button
 $("#subBtn").on("click", function () {
     // variable to store search input
     var cityName = $("#cityTxt").val();
+    // adding border to current temp info div
+    $("#current").addClass("border border-warning")
     // console.log(cityName);
     getLocation(cityName);
 
@@ -25,13 +32,17 @@ function getLocation(cityName) {
             console.log(apiData)
             var lat = apiData.coord.lat;
             var lon = apiData.coord.lon;
-            // sending the variales to the onecallApi fetch
+            // sending the variales to the onecallApi fetch function
             oneCallApi(lon, lat, cityName);
+            //setting getting the data from local storage
             var getCity = JSON.parse(localStorage.getItem("weatherAPI")) || []
             if( getCity.indexOf(cityName) === -1){
+                // Adding newly searched data to local sotorage array
             getCity.push(cityName)
+            // adding all items to local stoarage
             localStorage.setItem('weatherAPI', JSON.stringify(getCity));
             }
+            // sending the old parsed data to the on laod funciton
             onLoad(getCity);
         },
         error: function (err) {
@@ -54,27 +65,24 @@ function oneCallApi(lon, lat, cityName) {
         success: function (apiData) {
             console.log(apiData);
             // adding the current temp detail to the current id div in HTML
-            $("#current").html(`<h4 class="font-weight-bold">${cityName}
-            
-                    <p>Temp: ${apiData.current.temp}°F</p>
-                    <p>Humidity: ${apiData.current.humidity}</p>
-                    <p>Wind Speed: ${apiData.current.wind_speed}</p>
-                    <img src="http://openweathermap.org/img/wn/${apiData.current.weather[0].icon}@2x.png"/>
+            $("#current").html(`<h4 class="font-weight-bold ">${cityName}
+                    <h3 class="mx-auto d-inline"> ${date}<h3>
+                    <p class="mx-auto d-inline">Temp: ${apiData.current.temp}°F</p>
+                    <p class="mx-auto d-inline">Humidity: ${apiData.current.humidity}</p>
+                    <p class="mx-auto d-inline">Wind Speed: ${apiData.current.wind_speed} mph</p>
+                    <img class="mx-auto d-inline" src="http://openweathermap.org/img/wn/${apiData.current.weather[0].icon}@2x.png"/>
                     
                     `)
-            // looping the 5 day forecast 
-
+            // looping the 5 day forecast to get the temp info
+           
             for (let i = 1; i < 7; i++) {
+                $(`#city-${i}`).html(`<h4 class="font-weight-bold"> City & Date:${cityName} / ${moment(date, "MM-DD-YYYY").add('day',1)} `)
+                
                 $(`#day-${i}`).html(`
-                <p class="mx-auto">Temp: ${apiData.daily[i].temp.day}°F  </p> 
-                <br>                                                                                                                                                              
-                      <p class="mx-auto">Humidity:  ${apiData.daily[i].humidity}  </p>
-
-                      <img src="http://openweathermap.org/img/wn/${apiData.daily[i].weather[0].icon}@2x.png"/>
-
-                <p class="mx-auto">Wind Speed: ${apiData.daily[i].wind_speed}</p>
-                `)
-                $(`#city-${i}`).html(`<h4 class="font-weight-bold"> Day ${i}: ${cityName}
+                <p class="mx-auto p-2">Temp: ${apiData.daily[i].temp.day}°F  </p>                                                                                                                                                            
+                <p class="mx-auto p-2">Humidity:  ${apiData.daily[i].humidity}  </p>
+                <p class="mx-auto p-2 ">Wind Speed: ${apiData.daily[i].wind_speed}mph</p>
+                <img class="mx-auto p-2" src="http://openweathermap.org/img/wn/${apiData.daily[i].weather[0].icon}@2x.png"/>
                 `)
 
             }
@@ -87,31 +95,31 @@ function oneCallApi(lon, lat, cityName) {
     })
 
 };
-var onLoad = function (saveName) {
+// Creating onload funciton to run when page is loaded
+var onLoad = function () {
+    // parse the local storage weatherAPI data
     var getCity = JSON.parse(localStorage.getItem("weatherAPI")) || []
     console.log(getCity)
     var blankHTML = ""
+    // looping through the local storage data and showing it on the page.
     for (let i=0; i< getCity.length;i++){
-        blankHTML += `<button class="previous border border-danger">${getCity[i]}</button>`
-
-        //   //  var listEL = document.createElement("li");
-        //     var listBtn = document.createElement("Button");
-
-        //     listBtn.className = 'previous border border-danger'
-        //     listBtn.textContent = getCity[i];
-        //   //  listEL.appendChild(listBtn);
-        //     orderedList.appendChild(listBtn);
-       
-            
+        // clearing out local storage after its loaded.
+        blankHTML += `<button class="previous">${getCity[i]}</button>`   
+        
     }
+    // clearing the city data on page to prevent duplication 
     $("#citySearch").html(blankHTML)
 
 };
 
+// adding onclcick to the local storage data on page.
 $("#citySearch").on("click", ".previous",function(){
     var city = $(this).text()
     console.log(city)
+    $("#current").addClass("border border-warning")
+    // add the button txt value to search bar
     $("#cityTxt").val(city)
+    // running the txt through the get location function
     getLocation(city);
 })
 
