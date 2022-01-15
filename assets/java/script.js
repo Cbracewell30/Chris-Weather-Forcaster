@@ -87,18 +87,28 @@ function oneCallApi(lon, lat, cityName) {
 var onLoad = function (saveName) {
     var getCity = JSON.parse(localStorage.getItem("weatherAPI")) || []
     console.log(getCity)
-     orderedList.innerHTML = ""
+    var blankHTML = ""
     for (let i=0; i< getCity.length;i++){
+        blankHTML += `<button class="previous border border-danger">${getCity[i]}</button>`
 
-          //  var listEL = document.createElement("li");
-            var listBtn = document.createElement("Button");
+        //   //  var listEL = document.createElement("li");
+        //     var listBtn = document.createElement("Button");
 
-            listBtn.className = 'previous border border-danger'
-            listBtn.textContent = getCity[i];
-          //  listEL.appendChild(listBtn);
-            orderedList.appendChild(listBtn);
-           
+        //     listBtn.className = 'previous border border-danger'
+        //     listBtn.textContent = getCity[i];
+        //   //  listEL.appendChild(listBtn);
+        //     orderedList.appendChild(listBtn);
+       
+            
     }
+    $("#citySearch").html(blankHTML)
 
 };
+
+$("#citySearch").on("click", ".previous",function(){
+    var city = $(this).text()
+    console.log(city)
+    getLocation(city);
+})
+
 onLoad();
