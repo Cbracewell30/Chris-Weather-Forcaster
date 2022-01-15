@@ -1,11 +1,20 @@
-var apiKey = "2401e5f244d6edfc7b640a1343114a6e";
+// variables for apikey, ol selector, and city namr array
 
+var apiKey = "2401e5f244d6edfc7b640a1343114a6e";
+var orderedList = document.querySelector("ol")
+var cityArr = {};
+
+
+// on click function for search button
 $("#subBtn").on("click", function () {
+    // variable to store search input
     var cityName = $("#cityTxt").val();
-    console.log(cityName);
-    getLocation(cityName)
+    // console.log(cityName);
+    getLocation(cityName);
+
 });
 
+// Fetching Lon and Lat coordinates by city name
 function getLocation(cityName) {
     var apiURL = `https://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=${apiKey}`;
     $.ajax({
@@ -16,17 +25,27 @@ function getLocation(cityName) {
             console.log(apiData)
             var lat = apiData.coord.lat;
             var lon = apiData.coord.lon;
+            // sending the variales to the onecallApi fetch
             oneCallApi(lon, lat, cityName);
+            var getCity = JSON.parse(localStorage.getItem("weatherAPI")) || []
+            if( getCity.indexOf(cityName) === -1){
+            getCity.push(cityName)
+            localStorage.setItem('weatherAPI', JSON.stringify(getCity));
+            }
+            onLoad(getCity);
         },
         error: function (err) {
-            console.log("Error in getting API Data", err)
+            $('#current').text(" Error Getting Location's Forecast!");
+
         }
     });
 
+
+
 };
 
+// Using the lon, lat, and city name from the get locaiton in the onecall locaiton to returnt he weather for the locaiton.
 function oneCallApi(lon, lat, cityName) {
-    
     var oneCall = `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&appid=${apiKey}&units=imperial`;
     $.ajax({
         type: 'GET',
@@ -34,6 +53,7 @@ function oneCallApi(lon, lat, cityName) {
         datatype: 'JSON',
         success: function (apiData) {
             console.log(apiData);
+            // adding the current temp detail to the current id div in HTML
             $("#current").html(`<h4 class="font-weight-bold">${cityName}
             
                     <p>Temp: ${apiData.current.temp}°F</p>
@@ -41,12 +61,13 @@ function oneCallApi(lon, lat, cityName) {
                     <p>Wind Speed: ${apiData.current.wind_speed}</p>
                     
                     `)
+            // looping the 5 day forecast 
 
             for (let i = 1; i < 7; i++) {
                 $(`#day-${i}`).html(`
                 <p>Temp: ${apiData.daily[i].temp.day}°F</p> 
-                <br>
-                <p>Humidity: ${apiData.daily[i].humidity}</p>
+                <br>                                                                                                                                                              
+                      <p>Humidity: ${apiData.daily[i].humidity}</p>
                 <br>
                 <p>Wind Speed: ${apiData.daily[i].wind_speed}</p>
                 `)
@@ -59,7 +80,25 @@ function oneCallApi(lon, lat, cityName) {
         },
         error: function (err) {
             console.log("Error in getting oneCall API Data", err)
-         }
+        }
     })
-};
 
+};
+var onLoad = function (saveName) {
+    var getCity = JSON.parse(localStorage.getItem("weatherAPI")) || []
+    console.log(getCity)
+     orderedList.innerHTML = ""
+    for (let i=0; i< getCity.length;i++){
+
+          //  var listEL = document.createElement("li");
+            var listBtn = document.createElement("Button");
+
+            listBtn.className = 'previous border border-danger'
+            listBtn.textContent = getCity[i];
+          //  listEL.appendChild(listBtn);
+            orderedList.appendChild(listBtn);
+           
+    }
+
+};
+onLoad();
