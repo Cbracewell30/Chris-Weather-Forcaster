@@ -108,6 +108,7 @@ var onLoad = function (saveName) {
 $("#citySearch").on("click", ".previous",function(){
     var city = $(this).text()
     console.log(city)
+    $("#cityTxt").val(city)
     getLocation(city);
 })
 
