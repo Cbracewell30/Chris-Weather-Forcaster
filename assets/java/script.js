@@ -4,11 +4,19 @@ var apiKey = "2401e5f244d6edfc7b640a1343114a6e";
 var orderedList = document.querySelector("ol")
 var cityArr = {};
 
-var date = (moment().format('ll'))
-console.log(moment().format('ll'))
+var date = moment().format('ll');
+var date1 = moment().add(1,'days');
+var date2 = moment().add(2,'days');
+var date3 = moment().add(3,'days');
+var date4 = moment().add(4,'days');
+var date5 = moment().add(5,'days');
 
-
-
+// adding date to box
+$(`#city-1`).html(`<h4 class="font-weight-bold"> Date: ${date1} `)
+$(`#city-2`).html(`<h4 class="font-weight-bold"> Date: ${date2} `)
+$(`#city-3`).html(`<h4 class="font-weight-bold"> Date: ${date3} `)
+$(`#city-4`).html(`<h4 class="font-weight-bold"> Date: ${date4} `)
+$(`#city-5`).html(`<h4 class="font-weight-bold"> Date: ${date5} `)
 
 // on click function for search button
 $("#subBtn").on("click", function () {
@@ -18,6 +26,7 @@ $("#subBtn").on("click", function () {
     $("#current").addClass("border border-warning")
     // console.log(cityName);
     getLocation(cityName);
+
 
 });
 
@@ -57,12 +66,14 @@ function getLocation(cityName) {
 
 // Using the lon, lat, and city name from the get locaiton in the onecall locaiton to returnt he weather for the locaiton.
 function oneCallApi(lon, lat, cityName) {
+    // var dateEL = moment('ll').add('day', 1);
+    // console.log(dateEL)
     var oneCall = `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&appid=${apiKey}&units=imperial`;
     $.ajax({
         type: 'GET',
         url: oneCall,
         datatype: 'JSON',
-        success: function (apiData) {
+        success: function (apiData) {  
             console.log(apiData);
             // adding the current temp detail to the current id div in HTML
             $("#current").html(`<h4 class="font-weight-bold ">${cityName}
@@ -76,10 +87,9 @@ function oneCallApi(lon, lat, cityName) {
             // looping the 5 day forecast to get the temp info
            
             for (let i = 1; i < 7; i++) {
-                $(`#city-${i}`).html(`<h4 class="font-weight-bold"> City & Date:${cityName} / ${moment(date, "MM-DD-YYYY").add('day',1)} `)
+               
                 
-                $(`#day-${i}`).html(`
-                <p class="mx-auto p-2">Temp: ${apiData.daily[i].temp.day}°F  </p>                                                                                                                                                            
+                $(`#day-${i}`).html(`<p class="mx-auto p-2">Temp: ${apiData.daily[i].temp.day}°F  </p>                                                                                                                                                            
                 <p class="mx-auto p-2">Humidity:  ${apiData.daily[i].humidity}  </p>
                 <p class="mx-auto p-2 ">Wind Speed: ${apiData.daily[i].wind_speed}mph</p>
                 <img class="mx-auto p-2" src="http://openweathermap.org/img/wn/${apiData.daily[i].weather[0].icon}@2x.png"/>
