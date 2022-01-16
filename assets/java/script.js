@@ -4,12 +4,15 @@ var apiKey = "2401e5f244d6edfc7b640a1343114a6e";
 var orderedList = document.querySelector("ol")
 var cityArr = {};
 
+// formatting date
 var date = moment().format('ll');
-var date1 = moment().add(1,'days');
-var date2 = moment().add(2,'days');
-var date3 = moment().add(3,'days');
-var date4 = moment().add(4,'days');
-var date5 = moment().add(5,'days');
+var date1 = moment().add(1,'days').format("dddd ll");
+var date2 = moment().add(2,'days').format("dddd ll");
+var date3 = moment().add(3,'days').format("dddd ll");
+var date4 = moment().add(4,'days').format("dddd ll");
+var date5 = moment().add(5,'days').format("dddd ll");
+
+
 
 // adding date to box
 $(`#city-1`).html(`<h4 class="font-weight-bold"> Date: ${date1} `)
